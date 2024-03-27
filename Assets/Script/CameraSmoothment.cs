@@ -16,7 +16,6 @@ public class CameraSmoothment : MonoBehaviour
         }
 
         var targetPosition = new Vector3(target.position.x, target.position.y, transform.position.z);
-        targetPosition.y = transform.position.y; 
 
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
     }
