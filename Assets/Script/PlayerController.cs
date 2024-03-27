@@ -6,19 +6,20 @@ namespace Script
     public class PlayerController : MonoBehaviour
     {
         public float speed = 5.0f;
-        private float movementX;
+        private float _movementX;
         public float gravity = -9.81f;
 
         private bool _isGrounded;
         public float jumpHeight = 0.5f;
 
-        private Vector3 playerVelocity;
+        private Vector3 _playerVelocity;
         
-        private CharacterController controller;
+        private CharacterController _controller;
+        public AudioSource jumpingSound;
 
         private void Start()
         {
-            controller = GetComponent<CharacterController>();
+            _controller = GetComponent<CharacterController>();
         }
 
         private void Update()
@@ -31,17 +32,17 @@ namespace Script
 
         private void ExecuteMovement()
         {
-            playerVelocity.x = movementX * speed * Time.deltaTime;
-            controller.Move(playerVelocity);
+            _playerVelocity.x = _movementX * speed * Time.deltaTime;
+            _controller.Move(_playerVelocity);
         }
 
         private void CheckFloor()
         {
-            _isGrounded = controller.isGrounded;
+            _isGrounded = _controller.isGrounded;
 
-            if (_isGrounded && playerVelocity.y < 0f)
+            if (_isGrounded && _playerVelocity.y < 0f)
             {
-                playerVelocity.y = 0f;
+                _playerVelocity.y = 0f;
             }
         }
 
@@ -49,22 +50,23 @@ namespace Script
         {
             var movementVector = movementValue.Get<Vector2>();
 
-            movementX = movementVector.x;
+            _movementX = movementVector.x;
         }
 
         private void ExecuteJump()
         {
             if (Input.GetAxisRaw("Jump") != 0 && _isGrounded)
             {
-                playerVelocity.y += Mathf.Sqrt(jumpHeight * -2f * gravity);
+                jumpingSound.Play(0);
+                _playerVelocity.y += Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
         }
 
         private void ExecuteGravity()
         {
-            playerVelocity.y += gravity * Time.deltaTime;
+            _playerVelocity.y += gravity * Time.deltaTime;
 
-            controller.Move(playerVelocity * Time.deltaTime);
+            _controller.Move(_playerVelocity * Time.deltaTime);
         }
     }
 }

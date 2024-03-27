@@ -1,23 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraSmoothment : MonoBehaviour
+namespace Script
 {
-    public Transform target;
-    public float smoothTime = 0.3f;
-    private Vector3 velocity = Vector3.zero;
-
-    private void LateUpdate()
+    public class CameraSmoothment : MonoBehaviour
     {
-        if (!target) 
+        public Transform target;
+        public float smoothTime = 0.3f;
+        private Vector3 _velocity = Vector3.zero;
+
+        private void LateUpdate()
         {
-            return;
+            if (!target) 
+            {
+                return;
+            }
+
+            var targetPosition = new Vector3(target.position.x, target.position.y, transform.position.z);
+
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref _velocity, smoothTime);
         }
-
-        var targetPosition = new Vector3(target.position.x, target.position.y, transform.position.z);
-        targetPosition.y = transform.position.y; 
-
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
     }
 }
