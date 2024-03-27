@@ -6,18 +6,23 @@ using UnityEngine;
 public class CubeMovement : MonoBehaviour
 {
 
-    // Start is called before the first frame update
-    [SerializeField] private GameObject Player;
+    [SerializeField] 
+    private GameObject Player;
+    
+    [SerializeField] 
+    float cubeForce;
+    
+    [SerializeField] 
+    float cubeSpeed;
+    
     private Rigidbody body;
     private float PlayerX;
     private float PlayerY;
-
     private float cubeLifetime = 3.0f;
     public static int howmanyBullets = 0;
     private float beginTime = 0.0f;
-    [SerializeField] float cubeForce;
     private bool bugFix = true;
-    [SerializeField] float cubeSpeed;
+
     
     
     void Start()
@@ -37,13 +42,10 @@ public class CubeMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log("Collision");
         if (collision.gameObject.CompareTag("Target"))
         {
-            // collision.gameObject.GotHit();
             if (bugFix)
             {
-               // collision.gameObject.BroadcastMessage("GotHit");
                 bugFix = false;
                 howmanyBullets--;
                 Destroy(gameObject, 0.1f);
