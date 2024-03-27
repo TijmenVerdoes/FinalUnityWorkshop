@@ -15,6 +15,7 @@ namespace Script
         private Vector3 playerVelocity;
         
         private CharacterController controller;
+        public AudioSource jumpingSound;
 
         private void Start()
         {
@@ -56,6 +57,7 @@ namespace Script
         {
             if (Input.GetAxisRaw("Jump") != 0 && _isGrounded)
             {
+                jumpingSound.Play(0);
                 playerVelocity.y += Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
         }
