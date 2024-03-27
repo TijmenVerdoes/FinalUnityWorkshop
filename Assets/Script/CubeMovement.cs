@@ -25,7 +25,7 @@ public class CubeMovement : MonoBehaviour
 
     
     
-    void Start()
+    private void Start()
     {
         howmanyBullets++;
         body = GetComponent<Rigidbody>();
@@ -40,7 +40,7 @@ public class CubeMovement : MonoBehaviour
         playerY = PlayerInfo.y;
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Target"))
         {
