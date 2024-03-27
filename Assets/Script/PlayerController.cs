@@ -15,6 +15,16 @@ namespace Script
         private Vector3 playerVelocity;
         
         private CharacterController controller;
+        
+        
+
+    
+        [SerializeField] 
+        private float timeBetweenShots;
+        
+        private GameObject inversionInstance;
+        public GameObject prefab;
+        private float previousTime = 0;
 
         private void Start()
         {
@@ -50,6 +60,18 @@ namespace Script
             var movementVector = movementValue.Get<Vector2>();
 
             movementX = movementVector.x;
+            if (movementX < -0.1f)
+            {
+                var newRotation = new Vector3(0, 180, 0);
+                transform.eulerAngles = newRotation; 
+            }
+            else if (movementX > 0.1f)
+            {
+                var newRotation = new Vector3(0, 0, 0);
+                transform.eulerAngles = newRotation;
+            }
+            
+            
         }
 
         private void ExecuteJump()
@@ -66,5 +88,17 @@ namespace Script
 
             controller.Move(playerVelocity * Time.deltaTime);
         }
+        
+        void OnFire(InputValue movementValue)
+        {
+        
+            var currentTime = Time.time;
+            if (currentTime > previousTime + timeBetweenShots)
+            {
+                previousTime = currentTime;
+                inversionInstance = Instantiate(prefab, transform.position, transform.rotation);
+            }
+        }
+        
     }
 }
