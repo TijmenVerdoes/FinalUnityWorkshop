@@ -1,74 +1,76 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class EnemyBehaviour : MonoBehaviour
+namespace Script
 {
-    [FormerlySerializedAs("Player")] [SerializeField] 
-    private GameObject player;
+    public class EnemyBehaviour : MonoBehaviour
+    {
+        [SerializeField] 
+        private GameObject player;
     
-    [SerializeField] 
-    private float timerDuration;
+        [SerializeField] 
+        private float timerDuration;
     
-    [FormerlySerializedAs("PlayerDistance")] [SerializeField] 
-    private float playerDistance;
+        [SerializeField] 
+        private float playerDistance;
     
-    [SerializeField]
-    private int lives;
+        [SerializeField]
+        private int lives;
     
-    public GameObject prefab;
-    private int amountHit;
-    private Rigidbody body;
-    private GameObject inversionInstance;
-    private readonly float movementSpeed = 0.1f;
-    private float previousTime;
-    public AudioSource shootSound;
+        public GameObject prefab;
+        private int _amountHit;
+        private Rigidbody _body;
+        private GameObject _inversionInstance;
+        private const float MovementSpeed = 0.1f;
+        private float _previousTime;
+        public AudioSource shootSound;
 
-    private void Start()
-    {
-        body = GetComponent<Rigidbody>();
-    }
-
-    private void FixedUpdate()
-    {
-        moveEnemyToPlayer();
-    }
-    
-    public void GotHit()
-    {
-        amountHit++;
-        if (amountHit > lives)
+        private void Start()
         {
-            if (inversionInstance != null)
-            {
-                Destroy(inversionInstance);
-            }
+            _body = GetComponent<Rigidbody>();
+        }
 
-            Destroy(gameObject, 0.1f);
+        private void FixedUpdate()
+        {
+            MoveEnemyToPlayer();
+        }
+    
+        public void GotHit()
+        {
+            _amountHit++;
+            if (_amountHit > lives)
+            {
+                if (_inversionInstance != null)
+                {
+                    Destroy(_inversionInstance);
+                }
+
+                Destroy(gameObject, 0.1f);
             
+            }
         }
-    }
 
-    private void moveEnemyToPlayer()
-    {
-        var PlayerInfo = player.transform.position;
-        var position = transform.position;
-        var distance = Vector3.Distance(PlayerInfo, position);
-        
-        if (distance > playerDistance)
+        private void MoveEnemyToPlayer()
         {
-            position.x += (PlayerInfo.x - position.x) * Time.fixedDeltaTime * movementSpeed;
-            position.z += (PlayerInfo.z - position.z) * Time.fixedDeltaTime * movementSpeed;
-            transform.position = position;
-        }
+            var playerInfo = player.transform.position;
+            var position = transform.position;
+            var distance = Vector3.Distance(playerInfo, position);
         
-        else
-        {
-            var currentTime = Time.time;
-            if (currentTime > previousTime + timerDuration)
+            if (distance > playerDistance)
             {
-                previousTime = currentTime;
-                inversionInstance = Instantiate(prefab, transform.position, transform.rotation);
-                shootSound.Play(0);
+                position.x += (playerInfo.x - position.x) * Time.fixedDeltaTime * MovementSpeed;
+                position.z += (playerInfo.z - position.z) * Time.fixedDeltaTime * MovementSpeed;
+                transform.position = position;
+            }
+        
+            else
+            {
+                var currentTime = Time.time;
+                if (currentTime > _previousTime + timerDuration)
+                {
+                    _previousTime = currentTime;
+                    _inversionInstance = Instantiate(prefab, transform.position, transform.rotation);
+                    shootSound.Play(0);
+                }
             }
         }
     }

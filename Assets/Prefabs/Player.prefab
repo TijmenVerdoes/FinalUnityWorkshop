@@ -76,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   gravity: -0.5
-  jumpHeight: 0.02
+  jumpHeight: 0.03
   jumpingSound: {fileID: 409487784818655933}
 --- !u!114 &7741023976861036985
 MonoBehaviour:
