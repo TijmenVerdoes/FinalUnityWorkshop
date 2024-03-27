@@ -21,6 +21,7 @@ public class EnemyBehaviour : MonoBehaviour
     private GameObject inversionInstance;
     private readonly float movementSpeed = 0.1f;
     private float previousTime;
+    public AudioSource shootSound;
 
     private void Start()
     {
@@ -52,12 +53,14 @@ public class EnemyBehaviour : MonoBehaviour
         var PlayerInfo = player.transform.position;
         var position = transform.position;
         var distance = Vector3.Distance(PlayerInfo, position);
+        
         if (distance > playerDistance)
         {
             position.x += (PlayerInfo.x - position.x) * Time.fixedDeltaTime * movementSpeed;
             position.z += (PlayerInfo.z - position.z) * Time.fixedDeltaTime * movementSpeed;
             transform.position = position;
         }
+        
         else
         {
             var currentTime = Time.time;
@@ -65,6 +68,7 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 previousTime = currentTime;
                 inversionInstance = Instantiate(prefab, transform.position, transform.rotation);
+                shootSound.Play(0);
             }
         }
     }
