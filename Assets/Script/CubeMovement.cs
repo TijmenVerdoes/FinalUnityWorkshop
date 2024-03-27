@@ -10,10 +10,10 @@ public class CubeMovement : MonoBehaviour
     private GameObject Player;
     
     [SerializeField] 
-    float cubeForce;
+    private float cubeForce;
     
     [SerializeField] 
-    float cubeSpeed;
+    private float cubeSpeed;
     
     private Rigidbody body;
     private float playerX;
@@ -23,8 +23,6 @@ public class CubeMovement : MonoBehaviour
     private float beginTime = 0.0f;
     private bool bugFix = true;
 
-    
-    
     private void Start()
     {
         howmanyBullets++;
