@@ -1,15 +1,16 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    [SerializeField] 
-    private GameObject Player;
+    [FormerlySerializedAs("Player")] [SerializeField] 
+    private GameObject player;
     
     [SerializeField] 
     private float timerDuration;
     
-    [SerializeField] 
-    private float PlayerDistance;
+    [FormerlySerializedAs("PlayerDistance")] [SerializeField] 
+    private float playerDistance;
     
     [SerializeField]
     private int lives;
@@ -42,15 +43,16 @@ public class EnemyBehaviour : MonoBehaviour
             }
 
             Destroy(gameObject, 0.1f);
+            
         }
     }
 
     private void moveEnemyToPlayer()
     {
-        var PlayerInfo = Player.transform.position;
+        var PlayerInfo = player.transform.position;
         var position = transform.position;
         var distance = Vector3.Distance(PlayerInfo, position);
-        if (distance > PlayerDistance)
+        if (distance > playerDistance)
         {
             position.x += (PlayerInfo.x - position.x) * Time.fixedDeltaTime * movementSpeed;
             position.z += (PlayerInfo.z - position.z) * Time.fixedDeltaTime * movementSpeed;
